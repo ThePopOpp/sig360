@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1770768600000",
+    "title": "🚀 Communications Section Setup",
+    "description": "Build Twilio-powered communications section with voice calls and SMS.\n\n**Credentials needed from Jeremy:**\n• Twilio Account SID\n• Twilio Auth Token\n• Twilio Phone Number(s)\n• Supabase URL + Keys (anon + service role)\n• NocoDB connection details\n\n**Features to build:**\n• Dialpad for outbound/inbound voice calls\n• SMS inbox with conversation threads\n• Bulk SMS sender with templates\n• Call/message history in Supabase",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-02-11",
+    "tags": [
+      "dashboard",
+      "twilio",
+      "communications"
+    ],
+    "createdAt": "2026-02-11T03:50:00.000Z"
+  },
+  {
+    "id": "1770691248690",
+    "title": "Add New Skills",
+    "description": "Add new skills to a skills.md file.",
+    "completed": false,
+    "priority": "medium",
+    "dueDate": "2026-02-10",
+    "tags": [
+      "work",
+      "agent"
+    ],
+    "createdAt": "2026-02-10T02:40:48.690Z"
+  }
+]
