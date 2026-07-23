@@ -23,14 +23,12 @@ import {
   UserPlus,
   FolderKanban,
   DollarSign,
+  Home,
   BarChart3,
   FileText,
-  Megaphone,
   Bot,
   ChevronDown,
   ChevronRight,
-  Briefcase,
-  Package,
   X,
   Rocket,
   StickyNote,
@@ -39,10 +37,14 @@ import {
   Shield,
   UserCog,
   CreditCard,
+  Plug,
   LogOut,
+  Receipt,
+  ShieldCheck,
 } from 'lucide-react';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { useAuth } from '@/contexts/AuthContext';
+import { PERMISSIONS } from '@/lib/rbac';
 import { Sig360LogoMark } from '@/components/branding/Sig360LogoMark';
 
 // AI nested items
@@ -67,25 +69,39 @@ const accountNavigation = [
   { name: 'Payment Setup', href: '/account/payment-setup', icon: CreditCard },
 ];
 
-// Main navigation (flat items)
-const mainNavigation = [
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-  { name: 'Communications', href: '/communications', icon: Phone },
-  { name: 'Contacts', href: '/contacts', icon: Users },
-  { name: 'Leads', href: '/leads', icon: UserPlus },
-  { name: 'Pipeline', href: '/pipeline', icon: DollarSign },
-  { name: 'Projects', href: '/projects', icon: FolderKanban },
-  { name: 'Documents', href: '/documents', icon: FileText },
+// Main navigation (flat items). `perm` gates visibility (any-of when an array).
+// Items with no `perm` are visible to any authenticated user.
+type NavItem = {
+  name: string;
+  href: string;
+  icon: typeof BarChart3;
+  perm?: string | string[];
+};
+
+const mainNavigation: NavItem[] = [
+  { name: 'Analytics', href: '/analytics', icon: BarChart3, perm: PERMISSIONS.REPORTS_VIEW },
+  { name: 'Communications', href: '/communications', icon: Phone, perm: PERMISSIONS.COMMS_VIEW },
+  { name: 'Clients', href: '/clients', icon: Users, perm: [PERMISSIONS.CLIENTS_VIEW_ALL, PERMISSIONS.CLIENTS_VIEW_ASSIGNED] },
+  { name: 'Households', href: '/households', icon: Home, perm: [PERMISSIONS.HOUSEHOLDS_VIEW_ALL, PERMISSIONS.HOUSEHOLDS_VIEW_ASSIGNED] },
+  { name: 'Contacts', href: '/contacts', icon: Users, perm: PERMISSIONS.CONTACTS_VIEW },
+  { name: 'Leads', href: '/leads', icon: UserPlus, perm: PERMISSIONS.LEADS_VIEW },
+  { name: 'Pipeline', href: '/pipeline', icon: DollarSign, perm: PERMISSIONS.LEADS_VIEW },
+  { name: 'Projects', href: '/projects', icon: FolderKanban, perm: PERMISSIONS.TASKS_VIEW },
+  { name: 'Documents', href: '/documents', icon: FileText, perm: PERMISSIONS.DOCUMENTS_VIEW },
+  { name: 'Expenses', href: '/expenses', icon: Receipt, perm: PERMISSIONS.EXPENSES_VIEW_OWN },
+  {
+    name: 'My Records',
+    href: '/employee-documents',
+    icon: ShieldCheck,
+    perm: PERMISSIONS.EMPLOYEE_DOCS_VIEW_OWN,
+  },
   { name: 'Notes', href: '/notes', icon: StickyNote },
-  { name: 'Portfolio', href: '/portfolio', icon: Briefcase },
-  { name: 'Posts', href: '/posts', icon: FileText },
-  { name: 'Products', href: '/products', icon: Package },
-  { name: 'Billing', href: '/billing', icon: FileText },
-  { name: 'Advertising', href: '/advertising', icon: Megaphone },
-  { name: 'Appointments', href: '/appointments', icon: Calendar },
-  { name: 'Automation', href: '/automation', icon: Zap },
-  { name: 'Deploy', href: '/deploy', icon: Rocket },
-  { name: 'Settings', href: '/settings', icon: Settings },
+  { name: 'Posts', href: '/posts', icon: FileText, perm: PERMISSIONS.MARKETING_VIEW_CAMPAIGNS },
+  { name: 'Appointments', href: '/appointments', icon: Calendar, perm: PERMISSIONS.APPOINTMENTS_VIEW },
+  { name: 'Automation', href: '/automation', icon: Zap, perm: PERMISSIONS.SETTINGS_MANAGE_AUTOMATIONS },
+  { name: 'Integrations', href: '/integrations', icon: Plug, perm: PERMISSIONS.SETTINGS_VIEW },
+  { name: 'Deploy', href: '/deploy', icon: Rocket, perm: PERMISSIONS.SETTINGS_EDIT },
+  { name: 'Settings', href: '/settings', icon: Settings, perm: PERMISSIONS.SETTINGS_VIEW },
 ];
 
 interface SidebarProps {
@@ -96,8 +112,19 @@ interface SidebarProps {
 export function Sidebar({ status = 'sleeping', onClose }: SidebarProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
-  const { user, signOut } = useAuth();
-  
+  const { user, signOut, canAny, loading: authLoading } = useAuth();
+
+  // Until permissions load, show everything (avoids hiding items from admins on
+  // first paint). Once loaded, filter by permission. Server still enforces.
+  const navReady = !authLoading;
+  const visible = (perm?: string | string[]) => {
+    if (!perm) return true;
+    if (!navReady) return true;
+    return canAny(Array.isArray(perm) ? perm : [perm]);
+  };
+  const visibleMainNav = mainNavigation.filter((item) => visible(item.perm));
+  const showAiSection = visible(PERMISSIONS.AI_USE);
+
   // Check if any AI route is active
   const isAiRouteActive = aiNavigation.some(
     item => pathname === item.href || pathname.startsWith(item.href + '/')
@@ -153,6 +180,7 @@ export function Sidebar({ status = 'sleeping', onClose }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {/* AI Section */}
+        {showAiSection && (
         <div>
           <button
             onClick={() => setAiExpanded(!aiExpanded)}
@@ -198,9 +226,10 @@ export function Sidebar({ status = 'sleeping', onClose }: SidebarProps) {
             </div>
           )}
         </div>
+        )}
 
         {/* Main Navigation */}
-        {mainNavigation.map((item) => {
+        {visibleMainNav.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
           return (
             <Link

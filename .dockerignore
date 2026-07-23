@@ -1,0 +1,16 @@
+# Keep the build context small and correct. node_modules must NOT be copied —
+# the deps stage installs clean Linux binaries via `npm ci`; copying the host's
+# (Windows) node_modules over them would break the build.
+node_modules
+.next
+.git
+.github
+npm-debug.log*
+# Never bake local secrets into the image (Coolify injects env separately).
+.env
+.env*.local
+# Dev-only artifacts
+*.log
+Dockerfile
+docker-compose.yml
+.dockerignore

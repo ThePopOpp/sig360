@@ -7,6 +7,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Poppins — headings and numerals. Loaded via next/font in app/layout.tsx. */
+  --font-display: var(--font-poppins);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -25,81 +27,122 @@
   --color-card: var(--card);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-brand-ink: var(--brand-ink);
+  /* Signature yellow — the secondary CTA / highlight surface. */
+  --color-yellow: var(--yellow);
+  --color-yellow-hover: var(--yellow-hover);
+  --color-yellow-foreground: var(--yellow-foreground);
+  --color-yellow-soft: var(--yellow-soft);
+  /* The three phases of wealth. */
+  --color-phase-1: var(--phase-1);
+  --color-phase-2: var(--phase-2);
+  --color-phase-3: var(--phase-3);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/*
+ * SIG brand palette — blue primary + signature yellow, per home.html.
+ * Light mode carries the marketing values verbatim. Dark mode lifts the blue
+ * (#2C57E4 is too dark to read against a near-black surface) and pairs it with
+ * dark ink, mirroring how the yellow button already works in both modes.
+ */
+
 :root {
   --radius: 0.625rem;
-  /* Default until html.dark / html.light apply */
-  --brand: #00fc83;
-  --brand-foreground: #0a0a0a;
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #09090b;
-  --card-foreground: #fafafa;
-  --popover: #09090b;
-  --popover-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #18181b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
+  /* Default until html.dark / html.light apply — matches .dark. */
+  --brand: #6e96ff;
+  --brand-foreground: #0a1024;
+  --brand-ink: #8fb0ff;
+  --yellow: #fbe45a;
+  --yellow-hover: #f9de3e;
+  --yellow-foreground: #101114;
+  --yellow-soft: #2a2712;
+  --phase-1: #12b886;
+  --phase-2: #f5a524;
+  --phase-3: #6e96ff;
+  --background: #0b0c0f;
+  --foreground: #f5f6f8;
+  --card: #131419;
+  --card-foreground: #f5f6f8;
+  --popover: #131419;
+  --popover-foreground: #f5f6f8;
+  --primary: #f5f6f8;
+  --primary-foreground: #131419;
+  --secondary: #1b1d24;
+  --secondary-foreground: #f5f6f8;
+  --muted: #1b1d24;
+  --muted-foreground: #9a9ca8;
+  --accent: #1b1d24;
+  --accent-foreground: #f5f6f8;
   --destructive: #ef4444;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #d4d4d8;
+  --border: #26272f;
+  --input: #26272f;
+  --ring: #6e96ff;
 }
 
 .dark {
-  --brand: #00fc83;
-  --brand-foreground: #0a0a0a;
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #09090b;
-  --card-foreground: #fafafa;
-  --popover: #09090b;
-  --popover-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #18181b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
+  --brand: #6e96ff;
+  --brand-foreground: #0a1024;
+  --brand-ink: #8fb0ff;
+  --yellow: #fbe45a;
+  --yellow-hover: #f9de3e;
+  --yellow-foreground: #101114;
+  --yellow-soft: #2a2712;
+  --phase-1: #12b886;
+  --phase-2: #f5a524;
+  --phase-3: #6e96ff;
+  --background: #0b0c0f;
+  --foreground: #f5f6f8;
+  --card: #131419;
+  --card-foreground: #f5f6f8;
+  --popover: #131419;
+  --popover-foreground: #f5f6f8;
+  --primary: #f5f6f8;
+  --primary-foreground: #131419;
+  --secondary: #1b1d24;
+  --secondary-foreground: #f5f6f8;
+  --muted: #1b1d24;
+  --muted-foreground: #9a9ca8;
+  --accent: #1b1d24;
+  --accent-foreground: #f5f6f8;
   --destructive: #ef4444;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #d4d4d8;
+  --border: #26272f;
+  --input: #26272f;
+  --ring: #6e96ff;
 }
 
 .light {
-  --brand: #14532d;
-  --brand-foreground: #ecfdf5;
+  --brand: #2c57e4;
+  --brand-foreground: #ffffff;
+  --brand-ink: #1e3eb0;
+  --yellow: #fbe45a;
+  --yellow-hover: #f9de3e;
+  --yellow-foreground: #101114;
+  --yellow-soft: #fef4b4;
+  --phase-1: #12b886;
+  --phase-2: #f5a524;
+  --phase-3: #2c57e4;
   --background: #ffffff;
-  --foreground: #09090b;
+  --foreground: #101114;
   --card: #ffffff;
-  --card-foreground: #09090b;
+  --card-foreground: #101114;
   --popover: #ffffff;
-  --popover-foreground: #09090b;
-  --primary: #18181b;
-  --primary-foreground: #fafafa;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #18181b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
+  --popover-foreground: #101114;
+  --primary: #101114;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7fa;
+  --secondary-foreground: #101114;
+  --muted: #f7f7fa;
+  --muted-foreground: #8a8c98;
+  --accent: #f7f7fa;
+  --accent-foreground: #101114;
   --destructive: #ef4444;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #18181b;
+  --border: #ececf0;
+  --input: #ececf0;
+  --ring: #2c57e4;
 }
 
 @layer base {

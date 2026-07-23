@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "note_1784828065514",
+    "title": "Test Note Title",
+    "content": "This is the new note content section. ",
+    "type": "note",
+    "createdAt": "2026-07-23T17:34:25.514Z",
+    "updatedAt": "2026-07-23T17:34:25.514Z",
+    "attendees": []
+  },
+  {
+    "id": "note_1784828089365",
+    "title": "Second Test Note",
+    "content": "This is the content section for the second test note. ",
+    "type": "note",
+    "createdAt": "2026-07-23T17:34:49.365Z",
+    "updatedAt": "2026-07-23T17:34:49.365Z",
+    "attendees": []
+  }
+]
