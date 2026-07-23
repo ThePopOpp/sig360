@@ -218,7 +218,8 @@ export default function HomePage() {
       {/* HERO */}
       <section className="text-center pt-[70px] pb-[30px]">
         <div className={WRAP}>
-          <h1 className={cn(HEADING, 'text-[clamp(2.6rem,6.4vw,5rem)] font-bold max-w-[14ch] mx-auto')}>
+          {/* Hero uses leading-[1em] (not HEADING's leading-[1.05]) per request. */}
+          <h1 className="font-display tracking-[-.02em] leading-[1em] text-[clamp(2.6rem,6.4vw,5rem)] font-bold max-w-[14ch] mx-auto">
             Financial solutions for every phase of life.
           </h1>
           <p className="text-[clamp(1.05rem,2vw,1.4rem)] max-w-[30ch] mx-auto mt-[1.6rem] mb-8 text-muted-foreground font-medium">
